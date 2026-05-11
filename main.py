@@ -32,7 +32,7 @@ def cartelInicio():
     print("----------------------------------------------------------------------------------------------------------")
     print("")
     print("")
-    input("Para continuar, presione Enter\n")
+    input("Presione Enter para continuar\n")
 
 def menu():
     limpiarPantalla()
@@ -48,7 +48,6 @@ def menu():
     print(MAGENTA + "E" + RESET + " - Reporte")
     print(RED + "F" + RESET + " - Salir")
     print("")
-    print("")
 
 def validarOpcion(opcionIngresada):
     return opcionIngresada == "A" or opcionIngresada == "B" or opcionIngresada == "C" or opcionIngresada == "D" or opcionIngresada == "E" or opcionIngresada == "F" or opcionIngresada == "a" or opcionIngresada == "b" or opcionIngresada == "c" or opcionIngresada == "d" or opcionIngresada == "e" or opcionIngresada == "f"
@@ -60,7 +59,8 @@ def juego2():
     return
 
 def juego3():
-    print("Juego en construcción. Volvé pronto!")
+    limpiarPantalla()
+    input("Juego en construcción. Volvé pronto!\n\nPresione Enter para volver\n")
 
 def juego4():
     return
@@ -69,12 +69,20 @@ def reporte():
     return
 
 def salir():
-    continuar = False
+    limpiarPantalla()
+    print("")
+    print("--------------------------------------------------------")
+    print("")
+    print("  Gracias por jugar, no apueste, juegue por diversión")
+    print("")
+    print("--------------------------------------------------------")
+    print("")
+    input("Presione Enter para salir\n")
 
 """
 Declaración de variables
 sistemaOperativo, comandoLimpiar, opcion: string
-continuar: bool
+continuar, opcionEsValida, flagAdvertencia: bool
 """
 
 sistemaOperativo = os.name
@@ -82,11 +90,41 @@ comandoLimpiar = "cls" if sistemaOperativo == "nt" else "clear"
 continuar = True
 opcion = ""
 opcionEsValida = False
+flagAdvertencia = False
+
 # Ejecución del programa
 
 cartelInicio()
-menu()
+""" menu()
 opcion = input("Elija una opción: ")
-""" while continuar:
+ """
+
+while continuar:
     while not opcionEsValida:
-        opcionEsValida = validarOpcion(opcion) """
+        menu()
+        if not flagAdvertencia:
+            print("")
+        else: 
+            print(RED + "Seleccione una opción válida" + RESET)
+        opcion = input("Elija una opción: ")
+        if validarOpcion(opcion):
+            opcionEsValida = True
+        else:
+            flagAdvertencia = True
+    match opcion:
+        case "A" | "a":
+            juego1()
+        case "B" | "b":
+            juego2()
+        case "C" | "c":
+            juego3()
+        case "D" | "d":
+            juego4()
+        case "E" | "e":
+            reporte()
+        case "F" | "f":
+            salir()
+            continuar = False
+    opcion = ""
+    opcionEsValida = False
+    flagAdvertencia = False
