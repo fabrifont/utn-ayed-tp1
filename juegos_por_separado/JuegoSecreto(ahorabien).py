@@ -15,7 +15,6 @@ respuesta = "s"
 while respuesta == "s":
     VecesJugadas = VecesJugadas + 1
     numerosecreto = random.randint(1, 100)
-    print(numerosecreto)  # Borrar al terminar el juego o antes de entregar el trabajo. Se deja para facilitar las pruebas.
     IntentosRestantes = 6
     IntentosRealizados = 0
     intento = 0 
