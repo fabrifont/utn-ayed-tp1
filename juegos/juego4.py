@@ -1,13 +1,19 @@
 import random
 import os
 
-os.system("cls")
+sistemaOperativo = os.name
+comandoLimpiar = "cls" if sistemaOperativo == "nt" else "clear"
+
+
+def limpiarPantalla():
+    os.system(comandoLimpiar)
 
 
 def juego4():
+    limpiarPantalla()
     nombre_j = input("Jugador/a, ingrese su nombre: \n")
 
-    descripcion_j = print(
+    print(
         f"\n{nombre_j}, sumaremos dos numeros entre 1 y 6. \nSi el resultado es par, usted ganara y sumara un punto. De lo contrario perdera y no sumara puntos."
     )
     contadorhistorico = 0
@@ -23,7 +29,7 @@ def juego4():
 
         respuesta_j = input(f"\n{nombre_j}. Par o impar?: \n")
 
-        print(suma_caras)
+        print("La suma de los números de los dados es: ", suma_caras)
 
         if suma_caras % 2 == 0:
             resultado_caras = "par"
@@ -34,12 +40,12 @@ def juego4():
         if respuesta_j == resultado_caras:
 
             contadorhistorico = contadorhistorico + 1
-            print("\nGanaste!")
-            print(f"\nHistorial de victorias: {contadorhistorico}\n")
+            print("\nGanaste!\n")
 
         else:
-            print("Perdiste!\n")
+            print("\nPerdiste!\n")
 
+        print(f"\nHistorial de victorias: {contadorhistorico}\n")
         continuar = input(f"{nombre_j}. Queres seguir jugando?: (si/no) ")
 
         if continuar == ("no"):

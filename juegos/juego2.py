@@ -1,7 +1,16 @@
 import random
+import os
+
+sistemaOperativo = os.name
+comandoLimpiar = "cls" if sistemaOperativo == "nt" else "clear"
+
+
+def limpiarPantalla():
+    os.system(comandoLimpiar)
 
 
 def juego2():
+    limpiarPantalla()
     print("¡Bienvenido al juego del número secreto!")
     Nombredeljugador = input("¿Cuál es tu nombre? ")
     print("Hola", Nombredeljugador, "¡Vamos a jugar al número secreto!")
