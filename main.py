@@ -81,10 +81,15 @@ def menu():
     print("")
 
 
+# Juego del Menor - Mayor
 def juego1():
-    "Declaracion de varibles"
-    "numeroActual" "numeroSiguiente" "racha" "prediccionValida" "acierto" "juegoTerminado" "nombre" "prediccion" "continuar"
-    """Juego del Menor - Mayor"""
+    # Declaracion de variables:
+    # STRING:
+    # nombre, prediccion, continuar
+    # BOOL:
+    # prediccionValida, acierto, juegoTerminado
+    # INT:
+    # numeroActual, numeroSiguiente, racha
     global juego1_nombre
     global juego1_jugadas
     global juego1_mayor_racha
@@ -173,11 +178,15 @@ def juego1():
             juego1_mayor_racha = racha
 
 
+# Numero secreto
 def juego2():
-    "Declaración de variables"
-    "IntentosRestantes, IntentosRealizados, juego2_jugadas, juego2_ganadas, juego2_perdidas, Intento, Entrada y numerosecreto: int(Enteros)"
-    "es_valido: bool (Booleano)"
-    "Respuesta: str (Cadena de caracteres)"
+    # Declaración de variables
+    # INT:
+    # IntentosRestantes, IntentosRealizados, juego2_jugadas, juego2_ganadas, juego2_perdidas, Intento, Entrada, numerosecreto
+    # BOOL:
+    # es_valido
+    # STRING:
+    # Respuesta
     global juego2_nombre
     global juego2_jugadas
     global juego2_ganadas
@@ -375,14 +384,19 @@ def salir():
     limpiarPantalla()
 
 
-"""
-Declaración de variables
-sistemaOperativo, comandoLimpiar, opcion: string
-continuar, opcionEsValida, flagAdvertencia: bool
-"""
+# Declaración de variables
 
-sistemaOperativo = os.name
-comandoLimpiar = "cls" if sistemaOperativo == "nt" else "clear"
+# STRING:
+# comandoLimpiar, opcion, juego1_nombre, juego2_nombre, juego4_nombre
+
+# BOOL:
+# continuar, opcionEsValida, flagAdvertencia
+
+# INT:
+# juego1_jugadas, juego1_mayor_racha, juego2_jugadas, juego2_ganadas, juego2_perdidas,
+# juego4_jugadas, juego4_ganadas, juego4_perdidas
+
+comandoLimpiar = "cls" if os.name == "nt" else "clear"
 continuar = True
 opcion = ""
 opcionEsValida = False
