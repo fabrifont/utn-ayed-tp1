@@ -82,51 +82,95 @@ def menu():
 
 
 def juego1():
-    """juego del menor - mayor"""
+    "Declaracion de varibles"
+    "numeroActual" "numeroSiguiente" "racha" "prediccionValida" "acierto" "juegoTerminado" "nombre" "prediccion" "continuar"
+    """Juego del Menor - Mayor"""
+    global juego1_nombre
+    global juego1_jugadas
+    global juego1_mayor_racha
     limpiarPantalla()
-    nombre = input("Ingresá tu nombre: ")
-    print(f"¡Hola {nombre}! Vamos a jugar al menor-mayor.")
-    print("Te muestro un número y tenés que adivinar si el siguiente es mayor o menor")
+    nombre = input("Ingresa tu nombre: ")
+    print(f"¡Hola {nombre}! Vamos a jugar al Menor-Mayor.")
+    print("Te muestro un numero y tenés que adivinar si el siguiente es Mayor o Menor")
 
     numeroActual = random.randint(1, 1000)
-    print(f"Número actual: {numeroActual}")
+    print(f"Numero actual: {numeroActual}")
     racha = 0
     juegoTerminado = False
 
     while not juegoTerminado:
-        prediccion = input("¿Mayor o menor? ").strip().lower()
+        prediccion = input("¿Mayor o Menor? ")
 
         prediccionValida = False
         while not prediccionValida:
-            if prediccion == "mayor" or prediccion == "menor":
+            if (
+                prediccion == "mayor"
+                or prediccion == "menor"
+                or prediccion == "MAYOR"
+                or prediccion == "MENOR"
+                or prediccion == "Mayor"
+                or prediccion == "Menor"
+            ):
                 prediccionValida = True
+
+                if (
+                    prediccion == "mayor"
+                    or prediccion == "MAYOR"
+                    or prediccion == "Mayor"
+                ):
+                    prediccion = "mayor"
+                else:
+                    prediccion = "menor"
             else:
-                print("Por favor ingrese sólo 'mayor' o 'menor'")
-                prediccion = input("¿MAYOR o MENOR? ").strip().lower()
+                print("Por favor ingrese solo 'mayor' o 'menor'")
+                prediccion = input("¿MAYOR o MENOR? ")
 
         numeroSiguiente = random.randint(1, 1000)
 
         acierto = False
-        if (prediccion == "mayor" and numeroSiguiente > numeroActual) or (
-            prediccion == "menor" and numeroSiguiente < numeroActual
-        ):
-            racha += 1
-            print(GREEN + f"¡Le diste capo! Racha: {racha}" + RESET)
+        if prediccion == "mayor" and numeroSiguiente > numeroActual:
+            acierto = True
+        elif prediccion == "menor" and numeroSiguiente < numeroActual:
             acierto = True
 
-        if not acierto:
-            print(
-                RED
-                + f"¡Le erraste como los mejores! El número era {numeroSiguiente}"
-                + RESET
-            )
-            print(f"¡Juego terminado {nombre}! La racha final fue de {racha} aciertos.")
-            input("\nPresione Enter para volver")
-            juegoTerminado = True
+        if acierto:
+            racha += 1
+            print(GREEN + f"¡Acertaste! Racha: {racha}" + RESET)
+        else:
+            print(RED + f"¡Le erraste! El numero era {numeroSiguiente}" + RESET)
 
-        numeroActual = numeroSiguiente
+            print(f"\n{nombre}, ¿Queres seguir jugando?")
+            continuar = input(
+                "Ingresa 'si' para seguir jugando o 'no' para volver al menu: "
+            )
+
+            while (
+                continuar != "si"
+                and continuar != "no"
+                and continuar != "Si"
+                and continuar != "No"
+            ):
+                print("Por favor ingrese solo 'si' o 'no'")
+                continuar = input(
+                    "Ingresa 'si' para segyur jugando o 'no' para volver al menu: "
+                )
+            juego1_jugadas += 1
+            if continuar == "si" or continuar == "Si":
+                racha = 0
+                print(f"¡Nueva oportunidad! Vamos de nuevo.")
+            else:
+                print(
+                    f"¡Juego terminado {nombre}! La racha final fue de {racha} aciertos."
+                )
+                juegoTerminado = True
+
         if not juegoTerminado:
-            print(f"nuevo número: {numeroActual}\n")
+            numeroActual = random.randint(1, 1000)
+            print(f"Nuevo numero: {numeroActual}\n")
+
+        if racha > juego1_mayor_racha:
+            juego1_nombre = nombre
+            juego1_mayor_racha = racha
 
 
 def juego2():
