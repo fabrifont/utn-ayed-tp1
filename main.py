@@ -177,7 +177,16 @@ def juego2():
             es_valido = False
             while not es_valido:
                 Entrada = input("Introduce tu intento (1-100): ")
-                try:
+
+                es_numerico = True
+                if len(Entrada) == 0:
+                    es_numerico = False
+
+                for caracter in Entrada:
+                    if not ("0" <= caracter <= "9"):
+                        es_numerico = False
+
+                if es_numerico:
                     Intento = int(Entrada)
                     if 1 <= Intento <= 100:
                         es_valido = True
@@ -185,7 +194,7 @@ def juego2():
                         print(
                             "Número inválido. Por favor, introduce un número entre 1 y 100."
                         )
-                except ValueError:
+                else:
                     print("Por favor introduzca un número. Inténtalo de nuevo.")
 
             IntentosRealizados = IntentosRealizados + 1
