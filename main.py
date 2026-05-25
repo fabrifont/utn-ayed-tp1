@@ -81,23 +81,6 @@ def menu():
     print("")
 
 
-def validarOpcion(opcionIngresada):
-    return (
-        opcionIngresada == "A"
-        or opcionIngresada == "B"
-        or opcionIngresada == "C"
-        or opcionIngresada == "D"
-        or opcionIngresada == "E"
-        or opcionIngresada == "F"
-        or opcionIngresada == "a"
-        or opcionIngresada == "b"
-        or opcionIngresada == "c"
-        or opcionIngresada == "d"
-        or opcionIngresada == "e"
-        or opcionIngresada == "f"
-    )
-
-
 def juego1():
     """juego del menor - mayor"""
     limpiarPantalla()
@@ -128,7 +111,7 @@ def juego1():
             prediccion == "menor" and numeroSiguiente < numeroActual
         ):
             racha += 1
-            print(GREEN + f"¡le diste capo! Racha: {racha}" + RESET)
+            print(GREEN + f"¡Le diste capo! Racha: {racha}" + RESET)
             acierto = True
 
         if not acierto:
@@ -340,7 +323,7 @@ while continuar:
         else:
             print(RED + "Seleccione una opción válida" + RESET)
         opcion = input("Elija una opción: ")
-        if validarOpcion(opcion):
+        if "A" <= opcion <= "F" or "a" <= opcion <= "f":
             opcionEsValida = True
         else:
             flagAdvertencia = True
