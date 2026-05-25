@@ -131,26 +131,27 @@ def juego1():
 
 def juego2():
     "Declaración de variables"
-    "IntentosRestantes, IntentosRealizados, VecesJugadas, VecesAcertadas, VecesPerdidas, Intento, Entrada y numerosecreto: int(Enteros)"
+    "IntentosRestantes, IntentosRealizados, juego2_jugadas, juego2_ganadas, juego2_perdidas, Intento, Entrada y numerosecreto: int(Enteros)"
     "es_valido: bool (Booleano)"
     "Respuesta: str (Cadena de caracteres)"
+    global juego2_nombre
+    global juego2_jugadas
+    global juego2_ganadas
+    global juego2_perdidas
     limpiarPantalla()
     print("¡Bienvenido al juego del número secreto!")
-    Nombredeljugador = input("¿Cuál es tu nombre? ")
-    print("Hola", Nombredeljugador, "¡Vamos a jugar al número secreto!")
+    juego2_nombre = input("¿Cuál es tu nombre? ")
+    print("Hola", juego2_nombre, "¡Vamos a jugar al número secreto!")
     print(
         "El juego consiste en adivinar un número entre 1 y 100. Tienes 6 intentos para adivinarlo. ¡Buena suerte!"
     )
 
     IntentosRestantes = 6
     IntentosRealizados = 0
-    VecesJugadas = 0
-    VecesAcertadas = 0
-    VecesPerdidas = 0
 
     Respuesta = "s"
     while Respuesta == "s":
-        VecesJugadas = VecesJugadas + 1
+        juego2_jugadas = juego2_jugadas + 1
         numerosecreto = random.randint(1, 100)
         IntentosRestantes = 6
         IntentosRealizados = 0
@@ -185,12 +186,12 @@ def juego2():
             if Intento == numerosecreto:
                 print(
                     "¡Felicidades",
-                    Nombredeljugador,
+                    juego2_nombre,
                     "has adivinado el número secreto! Lo has logrado en",
                     IntentosRealizados,
                     "intentos.",
                 )
-                VecesAcertadas = VecesAcertadas + 1
+                juego2_ganadas = juego2_ganadas + 1
                 IntentosRestantes = 0
             elif Intento < numerosecreto:
                 print("El número secreto es mayor que", Intento)
@@ -205,31 +206,33 @@ def juego2():
 
         if Intento != numerosecreto:
             print("No te quedan intentos. El número secreto era", numerosecreto)
-            VecesPerdidas = VecesPerdidas + 1
+            juego2_perdidas = juego2_perdidas + 1
 
         print(
             "Has jugado",
-            VecesJugadas,
+            juego2_jugadas,
             "veces, has acertado",
-            VecesAcertadas,
+            juego2_ganadas,
             "veces y has perdido",
-            VecesPerdidas,
+            juego2_perdidas,
             "veces.",
         )
         Respuesta = str(input("¿Deseas jugar nuevamente? (s/n) "))
         while Respuesta != "s" and Respuesta != "n":
             Respuesta = input("Por favor ingresa 's' o 'n': ")
 
-    print("¡Gracias por jugar, hasta la próxima!")
+    print("\n¡Gracias por jugar, hasta la próxima!")
     print(
         "Has jugado",
-        VecesJugadas,
+        juego2_jugadas,
         "veces, has acertado",
-        VecesAcertadas,
+        juego2_ganadas,
         "veces y has perdido",
-        VecesPerdidas,
+        juego2_perdidas,
         "veces.",
     )
+
+    input("\nPresione Enter para volver\n")
 
 
 def juego3():
@@ -282,7 +285,37 @@ def juego4():
 
 
 def reporte():
-    return
+    limpiarPantalla()
+    print("")
+    print("--------------------------------------------------------")
+    print("")
+    print(MAGENTA + "Reporte de puntuaciones:" + RESET)
+    print("")
+    print("Juego 1: Mayor-menor")
+    print(f"Nombre del jugador: {juego1_nombre}")
+    print(f"Partidas jugadas: {juego1_jugadas}")
+    print(f"{GREEN}Mayor racha: {juego1_mayor_racha}{RESET}")
+    print("")
+    print("Juego 2: Número secreto")
+    print(f"Nombre del jugador: {juego2_nombre}")
+    print(f"Partidas jugadas: {juego2_jugadas}")
+    print(f"{GREEN}Partidas ganadas: {juego2_ganadas}{RESET}")
+    print(f"{RED}Partidas perdidas: {juego2_perdidas}{RESET}")
+    print("")
+    print("Juego 3: Blackjack")
+    print("Juego en construcción")
+    print("")
+    print("Juego 4: Par o impar")
+    print(f"Nombre del jugador: {juego4_nombre}")
+    print(f"Partidas jugadas: {juego4_jugadas}")
+    print(f"{GREEN}Partidas ganadas: {juego4_ganadas}{RESET}")
+    print(f"{RED}Partidas perdidas: {juego4_perdidas}{RESET}")
+    print("")
+    print("")
+    print("--------------------------------------------------------")
+    print("")
+    input("Presione Enter para salir\n")
+    limpiarPantalla()
 
 
 def salir():
@@ -290,7 +323,7 @@ def salir():
     print("")
     print("--------------------------------------------------------")
     print("")
-    print("  Gracias por jugar. No apueste, juegue por diversión")
+    print("  Gracias por jugar. No apueste, " + GREEN + "juegue por diversión" + RESET)
     print("")
     print("--------------------------------------------------------")
     print("")
@@ -310,6 +343,21 @@ continuar = True
 opcion = ""
 opcionEsValida = False
 flagAdvertencia = False
+
+# Definición de variables de puntuacion globales para los juegos
+juego1_nombre = ""
+juego1_jugadas = 0
+juego1_mayor_racha = 0
+
+juego2_nombre = ""
+juego2_jugadas = 0
+juego2_ganadas = 0
+juego2_perdidas = 0
+
+juego4_nombre = ""
+juego4_jugadas = 0
+juego4_ganadas = 0
+juego4_perdidas = 0
 
 # Ejecución del programa
 
