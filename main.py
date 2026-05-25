@@ -3,8 +3,6 @@
 # Juego 1: corregir que no pregunte si querés volver a jugar y te mande al menú directamente
 # Sacar .strip.tolower, no se permiten los métodos de manejo de strings. Revisar validación
 
-# Juego 2: integrarlo cuando Santi lo mande corregido
-
 # Juego 4: corregir que no vailde inputs y tome cualquier cosa, se debería manejar sólo con
 # opciones como 1 y 2
 
@@ -148,7 +146,98 @@ def juego1():
             print(f"nuevo número: {numeroActual}\n")
 
 
-from juegos import juego2
+def juego2():
+    "Declaración de variables"
+    "IntentosRestantes, IntentosRealizados, VecesJugadas, VecesAcertadas, VecesPerdidas, Intento, Entrada y numerosecreto: int(Enteros)"
+    "es_valido: bool (Booleano)"
+    "Respuesta: str (Cadena de caracteres)"
+    limpiarPantalla()
+    print("¡Bienvenido al juego del número secreto!")
+    Nombredeljugador = input("¿Cuál es tu nombre? ")
+    print("Hola", Nombredeljugador, "¡Vamos a jugar al número secreto!")
+    print(
+        "El juego consiste en adivinar un número entre 1 y 100. Tienes 6 intentos para adivinarlo. ¡Buena suerte!"
+    )
+
+    IntentosRestantes = 6
+    IntentosRealizados = 0
+    VecesJugadas = 0
+    VecesAcertadas = 0
+    VecesPerdidas = 0
+
+    Respuesta = "s"
+    while Respuesta == "s":
+        VecesJugadas = VecesJugadas + 1
+        numerosecreto = random.randint(1, 100)
+        IntentosRestantes = 6
+        IntentosRealizados = 0
+        Intento = 0
+
+        while IntentosRestantes > 0:
+            es_valido = False
+            while not es_valido:
+                Entrada = input("Introduce tu intento (1-100): ")
+                try:
+                    Intento = int(Entrada)
+                    if 1 <= Intento <= 100:
+                        es_valido = True
+                    else:
+                        print(
+                            "Número inválido. Por favor, introduce un número entre 1 y 100."
+                        )
+                except ValueError:
+                    print("Por favor introduzca un número. Inténtalo de nuevo.")
+
+            IntentosRealizados = IntentosRealizados + 1
+
+            if Intento == numerosecreto:
+                print(
+                    "¡Felicidades",
+                    Nombredeljugador,
+                    "has adivinado el número secreto! Lo has logrado en",
+                    IntentosRealizados,
+                    "intentos.",
+                )
+                VecesAcertadas = VecesAcertadas + 1
+                IntentosRestantes = 0
+            elif Intento < numerosecreto:
+                print("El número secreto es mayor que", Intento)
+            else:
+                print("El número secreto es menor que", Intento)
+
+            IntentosRestantes = IntentosRestantes - 1
+            if IntentosRestantes > 1:
+                print("Te quedan", IntentosRestantes, "intentos.")
+            elif IntentosRestantes == 1:
+                print("Te queda", IntentosRestantes, "intento.")
+
+        if Intento != numerosecreto:
+            print("No te quedan intentos. El número secreto era", numerosecreto)
+            VecesPerdidas = VecesPerdidas + 1
+
+        print(
+            "Has jugado",
+            VecesJugadas,
+            "veces, has acertado",
+            VecesAcertadas,
+            "veces y has perdido",
+            VecesPerdidas,
+            "veces.",
+        )
+        Respuesta = str(input("¿Deseas jugar nuevamente? (s/n) "))
+        while Respuesta != "s" and Respuesta != "n":
+            Respuesta = input("Por favor ingresa 's' o 'n': ")
+
+    print("¡Gracias por jugar, hasta la próxima!")
+    print(
+        "Has jugado",
+        VecesJugadas,
+        "veces, has acertado",
+        VecesAcertadas,
+        "veces y has perdido",
+        VecesPerdidas,
+        "veces.",
+    )
 
 
 def juego3():
@@ -250,7 +339,7 @@ while continuar:
         case "A" | "a":
             juego1()
         case "B" | "b":
-            juego2.juego2()
+            juego2()
         case "C" | "c":
             juego3()
         case "D" | "d":
