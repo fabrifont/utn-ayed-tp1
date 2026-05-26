@@ -203,7 +203,7 @@ def juego2():
     IntentosRealizados = 0
 
     Respuesta = "s"
-    while Respuesta == "s":
+    while Respuesta == "s" or Respuesta == "S":
         juego2_jugadas = juego2_jugadas + 1
         numerosecreto = random.randint(1, 100)
         IntentosRestantes = 6
@@ -271,7 +271,12 @@ def juego2():
             "veces.",
         )
         Respuesta = str(input("¿Deseas jugar nuevamente? (s/n) "))
-        while Respuesta != "s" and Respuesta != "n":
+        while (
+            Respuesta != "s"
+            and Respuesta != "n"
+            and Respuesta != "S"
+            and Respuesta != "N"
+        ):
             Respuesta = input("Por favor ingresa 's' o 'n': ")
 
     print("\n¡Gracias por jugar, hasta la próxima!")
@@ -295,20 +300,43 @@ def juego3():
 
 def juego4():
     limpiarPantalla()
-    nombre_j = input("Jugador/a, ingrese su nombre: \n")
-    print(
-        f"\n{nombre_j}, sumaremos dos numeros entre 1 y 6. \nSi el resultado es par, usted ganará y sumará un punto. De lo contrario perderá y no sumará puntos."
-    )
-    contadorhistorico = 0
-    opcionContinuar = ""
-    continuarJuego = True
+    global juego4_nombre
+    global juego4_jugadas
+    global juego4_ganadas
+    global juego4_perdidas
 
-    while continuarJuego:
+    juego4_nombre = input("Jugador/a, ingrese su nombre: \n")
+
+    print(f"\n{juego4_nombre}, sumaremos dos numeros entre 1 y 6.")
+    print("Si el resultado es par, usted ganara y sumara un punto.")
+    print("De lo contrario perdera y no sumara puntos.")
+
+    continuar = "si"
+    while (
+        continuar == "si" or continuar == "Si" or continuar == "SI" or continuar == "sI"
+    ):
+
         caraUno = random.randint(1, 6)
         caraDos = random.randint(1, 6)
         suma_caras = caraUno + caraDos
-        respuesta_j = input(f"\n{nombre_j}. Par o impar?: \n")
-        print(suma_caras)
+
+        # esto es lo que le sumé:
+
+        respuesta_j = input(f"\n{juego4_nombre}. Par o impar?: \n")
+
+        while (
+            respuesta_j != "par"
+            and respuesta_j != "impar"
+            and respuesta_j != "PAR"
+            and respuesta_j != "IMPAR"
+            and respuesta_j != "Par"
+            and respuesta_j != "Impar"
+        ):
+            print("Caracteres incorrectos. Ingresar: par o impar.")
+            respuesta_j = input(f"\n{juego4_nombre}. Par o impar?: \n")
+
+        print(f"\nLa suma fue: {suma_caras}")
+        # hasta acá.
 
         if suma_caras % 2 == 0:
             resultado_caras = "par"
@@ -316,25 +344,37 @@ def juego4():
             resultado_caras = "impar"
 
         if respuesta_j == resultado_caras:
-            contadorhistorico = contadorhistorico + 1
+
+            juego4_ganadas = juego4_ganadas + 1
+
             print("\nGanaste!")
-            print(f"\nHistorial de victorias: {contadorhistorico}\n")
+            print(f"\nHistorial de victorias: {juego4_ganadas}\n")
+
         else:
             print("Perdiste!\n")
-
-        opcionContinuar = input(
-            f"{nombre_j}. Queres seguir jugando?:\n1 - Sí\n2 - No\n"
-        )
-        while opcionContinuar != "1" and opcionContinuar != "2":
-            print("Seleccione una opción válida")
-            opcionContinuar = input(
-                f"{nombre_j}. Queres seguir jugando?:\n1 - Sí\n2 - No\n"
+            juego4_perdidas += 1
+        juego4_jugadas += 1
+        continuar = input(f"{juego4_nombre}. Queres seguir jugando?: (si/no) ")
+        while (
+            continuar != "si"
+            and continuar != "Si"
+            and continuar != "SI"
+            and continuar != "sI"
+            and continuar != "no"
+            and continuar != "No"
+            and continuar != "NO"
+            and continuar != "nO"
+        ):
+            continuar = input(
+                f"Respuesta inválida, {juego4_nombre}. Queres seguir jugando?: (si/no) "
             )
-
-        continuarJuego = opcionContinuar == "1"
-
-        if not continuarJuego:
-            input("\nEsperamos volver a verte pronto!\nPresione Enter para volver\n")
+        if (
+            continuar == "no"
+            or continuar == "No"
+            or continuar == "NO"
+            or continuar == "nO"
+        ):
+            print("\nEsperamos volver a verte pronto!\n")
 
 
 def reporte():
