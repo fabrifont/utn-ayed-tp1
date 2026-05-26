@@ -23,6 +23,7 @@ while continuar == "si":
 
     suma_caras = caraUno + caraDos
 
+#esto es lo que le sumé:
 
     respuesta_j = input(f"\n{nombre_j}. Par o impar?: \n").lower()
 
@@ -34,6 +35,8 @@ while continuar == "si":
         respuesta_j = input(f"\n{nombre_j}. Par o impar?: \n").lower()
 
     print(f"\nLa suma fue: {suma_caras}")
+
+#hasta acá.
 
     if suma_caras % 2 == 0:
         resultado_caras = "par"
