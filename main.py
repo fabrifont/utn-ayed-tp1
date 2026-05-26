@@ -1,11 +1,3 @@
-# TODO:
-
-# Juego 1: corregir que no pregunte si querés volver a jugar y te mande al menú directamente
-# Sacar .strip.tolower, no se permiten los métodos de manejo de strings. Revisar validación
-
-# Juego 4: corregir que no vailde inputs y tome cualquier cosa, se debería manejar sólo con
-# opciones como 1 y 2
-
 # AyED 2026 - TP 1 - ISI 111
 # Integrantes:
 # - Fabrizio Fontanarrosa
@@ -298,7 +290,13 @@ def juego3():
     input("Juego en construcción. Volvé pronto!\n\nPresione Enter para volver\n")
 
 
+# Par o impar
 def juego4():
+    # Declaración de variables
+    # STRING:
+    # continuar, respuesta_j, resultado_caras
+    # INT:
+    # caraUno, caraDos, suma_caras
     limpiarPantalla()
     global juego4_nombre
     global juego4_jugadas
