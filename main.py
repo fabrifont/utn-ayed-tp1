@@ -132,7 +132,11 @@ def juego1():
 
         if acierto:
             racha += 1
-            print(GREEN + f"¡Acertaste! Racha: {racha}" + RESET)
+            print(
+                GREEN
+                + f"¡Acertaste! El numero era {numeroSiguiente}\nRacha: {racha}"
+                + RESET
+            )
         else:
             print(RED + f"¡Le erraste! El numero era {numeroSiguiente}" + RESET)
 
