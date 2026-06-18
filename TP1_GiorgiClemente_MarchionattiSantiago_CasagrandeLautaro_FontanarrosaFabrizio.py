@@ -471,7 +471,7 @@ juego4_perdidas = 0
 
 cartelInicio()
 
-while continuar:
+while opcion != "f" and opcion != "F":
     while not opcionEsValida:
         menu()
         if not flagAdvertencia:
@@ -494,9 +494,7 @@ while continuar:
             juego4()
         case "E" | "e":
             reporte()
-        case "F" | "f":
-            salir()
-            continuar = False
-    opcion = ""
     opcionEsValida = False
     flagAdvertencia = False
+
+salir()
