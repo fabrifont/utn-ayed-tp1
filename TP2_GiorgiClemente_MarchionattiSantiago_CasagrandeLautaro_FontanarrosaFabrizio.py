@@ -120,31 +120,20 @@ def juego1():
     juegoTerminado = False
 
     while not juegoTerminado:
-        prediccion = input("¿Mayor o Menor? ")
+        prediccion = input("¿Mayor o Menor? ").lower()
 
         prediccionValida = False
         while not prediccionValida:
-            if (
-                prediccion == "mayor"
-                or prediccion == "menor"
-                or prediccion == "MAYOR"
-                or prediccion == "MENOR"
-                or prediccion == "Mayor"
-                or prediccion == "Menor"
-            ):
+            if prediccion == "mayor" or prediccion == "menor":
                 prediccionValida = True
 
-                if (
-                    prediccion == "mayor"
-                    or prediccion == "MAYOR"
-                    or prediccion == "Mayor"
-                ):
+                if prediccion == "mayor":
                     prediccion = "mayor"
                 else:
                     prediccion = "menor"
             else:
                 print("Por favor ingrese sólo 'mayor' o 'menor'")
-                prediccion = input("¿MAYOR o MENOR? ")
+                prediccion = input("¿MAYOR o MENOR? ").lower()
 
         numeroSiguiente = random.randint(1, 1000)
 
@@ -167,20 +156,15 @@ def juego1():
             print(f"\n{nombre}, ¿Querés seguir jugando?")
             continuar = input(
                 "Ingresá 'si' para seguir jugando o 'no' para volver al menú: "
-            )
+            ).lower()
 
-            while (
-                continuar != "si"
-                and continuar != "no"
-                and continuar != "Si"
-                and continuar != "No"
-            ):
+            while continuar != "si" and continuar != "no":
                 print("Por favor ingrese sólo 'si' o 'no'")
                 continuar = input(
                     "Ingresa 'si' para seguir jugando o 'no' para volver al menú: "
-                )
+                ).lower()
             juego1_jugadas += 1
-            if continuar == "si" or continuar == "Si":
+            if continuar == "si":
                 racha = 0
                 print(f"¡Nueva oportunidad! Vamos de nuevo.")
             else:
@@ -231,7 +215,7 @@ def juego2():
             juego2_jugadores.append(juego2_nombre)
 
     Respuesta = "s"
-    while Respuesta == "s" or Respuesta == "S":
+    while Respuesta == "s":
         juego2_jugadas = juego2_jugadas + 1
         numerosecreto = random.randint(1, 100)
         IntentosRestantes = 6
@@ -298,14 +282,9 @@ def juego2():
             juego2_perdidas,
             "veces.",
         )
-        Respuesta = str(input("¿Deseas jugar nuevamente? (s/n) "))
-        while (
-            Respuesta != "s"
-            and Respuesta != "n"
-            and Respuesta != "S"
-            and Respuesta != "N"
-        ):
-            Respuesta = input("Por favor ingresá 's' o 'n': ")
+        Respuesta = input("¿Deseas jugar nuevamente? (s/n) ").lower()
+        while Respuesta != "s" and Respuesta != "n":
+            Respuesta = input("Por favor ingresá 's' o 'n': ").lower()
 
     print("\n¡Gracias por jugar, hasta la próxima!")
     print(
@@ -346,26 +325,17 @@ def juego4():
     print("De lo contrario perderá y no sumará puntos.")
 
     continuar = "si"
-    while (
-        continuar == "si" or continuar == "Si" or continuar == "SI" or continuar == "sI"
-    ):
+    while continuar == "si":
 
         caraUno = random.randint(1, 6)
         caraDos = random.randint(1, 6)
         suma_caras = caraUno + caraDos
 
-        respuesta_j = input(f"\n{juego4_nombre}. Par o impar?: \n")
+        respuesta_j = input(f"\n{juego4_nombre}. Par o impar?: \n").lower()
 
-        while (
-            respuesta_j != "par"
-            and respuesta_j != "impar"
-            and respuesta_j != "PAR"
-            and respuesta_j != "IMPAR"
-            and respuesta_j != "Par"
-            and respuesta_j != "Impar"
-        ):
+        while respuesta_j != "par" and respuesta_j != "impar":
             print("Caracteres incorrectos. Ingresar: par o impar.")
-            respuesta_j = input(f"\n{juego4_nombre}. Par o impar?: \n")
+            respuesta_j = input(f"\n{juego4_nombre}. Par o impar?: \n").lower()
 
         print(f"\nLa suma fue: {suma_caras}")
 
@@ -385,26 +355,12 @@ def juego4():
             print("Perdiste!\n")
             juego4_perdidas += 1
         juego4_jugadas += 1
-        continuar = input(f"{juego4_nombre}. Querés seguir jugando?: (si/no) ")
-        while (
-            continuar != "si"
-            and continuar != "Si"
-            and continuar != "SI"
-            and continuar != "sI"
-            and continuar != "no"
-            and continuar != "No"
-            and continuar != "NO"
-            and continuar != "nO"
-        ):
+        continuar = input(f"{juego4_nombre}. Querés seguir jugando?: (si/no) ").lower()
+        while continuar != "si" and continuar != "no":
             continuar = input(
                 f"Respuesta inválida, {juego4_nombre}. Querés seguir jugando?: (si/no) "
-            )
-        if (
-            continuar == "no"
-            or continuar == "No"
-            or continuar == "NO"
-            or continuar == "nO"
-        ):
+            ).lower()
+        if continuar == "no":
             print("\nEsperamos volver a verte pronto!\n")
 
 
@@ -493,28 +449,28 @@ juego4_perdidas = 0
 
 cartelInicio()
 
-while opcion != "f" and opcion != "F":
+while opcion != "f":
     while not opcionEsValida:
         menu()
         if not flagAdvertencia:
             print("")
         else:
             print(RED + "Seleccione una opción válida" + RESET)
-        opcion = input("Elija una opción: ")
-        if "A" <= opcion <= "F" or "a" <= opcion <= "f":
+        opcion = input("Elija una opción: ").lower()
+        if "a" <= opcion <= "f":
             opcionEsValida = True
         else:
             flagAdvertencia = True
     match opcion:
-        case "A" | "a":
+        case "a":
             juego1()
-        case "B" | "b":
+        case "b":
             juego2()
-        case "C" | "c":
+        case "c":
             juego3()
-        case "D" | "d":
+        case "d":
             juego4()
-        case "E" | "e":
+        case "e":
             reporte()
     opcionEsValida = False
     flagAdvertencia = False
