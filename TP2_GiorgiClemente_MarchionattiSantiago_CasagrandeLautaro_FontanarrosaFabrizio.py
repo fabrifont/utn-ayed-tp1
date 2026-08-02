@@ -222,6 +222,11 @@ def juego2():
         intento = 0
 
         while intentosRestantes > 0:
+            if intentosRestantes > 1:
+                print("Te quedan", intentosRestantes, "intentos.")
+            elif intentosRestantes == 1:
+                print("Te queda", intentosRestantes, "intento.")
+
             esValido = False
             while not esValido:
                 entrada = input("Introduce tu intento (1-100): ")
@@ -263,10 +268,6 @@ def juego2():
                 print("El número secreto es menor que", intento)
 
             intentosRestantes = intentosRestantes - 1
-            if intentosRestantes > 1:
-                print("Te quedan", intentosRestantes, "intentos.")
-            elif intentosRestantes == 1:
-                print("Te queda", intentosRestantes, "intento.")
 
         if intento != numeroSecreto:
             print("No te quedan intentos. El número secreto era", numeroSecreto)
@@ -843,7 +844,7 @@ def salir():
 # STRING:
 # comandoLimpiar, opcion
 # BOOL:
-# continuar, opcionEsValida, flagAdvertencia
+# opcionEsValida, flagAdvertencia
 # INT:
 # MAX_JUGADORES, j1_cant, j2_cant, j3_cant, j4_cant
 # ARRAYS SIMULADOS (longitud fija MAX_JUGADORES, un solo tipo de dato,
@@ -854,7 +855,6 @@ def salir():
 # j4_nombres (str), j4_jugadas, j4_ganadas, j4_perdidas, j4_creditos (int)
 
 comandoLimpiar = "cls" if os.name == "nt" else "clear"
-continuar = True
 opcion = ""
 opcionEsValida = False
 flagAdvertencia = False
