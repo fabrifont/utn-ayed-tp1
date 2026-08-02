@@ -1,6 +1,4 @@
-# utn-ayed-tp1
-
-UTN FRRo - Algoritmos y Estructuras de Datos 2026 - Trabajo Práctico 1
+# UTN FRRo - Algoritmos y Estructuras de Datos 2026 - Trabajo Práctico 2
 
 Integrantes:
 
