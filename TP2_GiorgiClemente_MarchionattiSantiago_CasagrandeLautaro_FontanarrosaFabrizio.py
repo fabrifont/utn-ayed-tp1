@@ -1,4 +1,4 @@
-# AyED 2026 - TP 1 - ISI 111
+# AyED 2026 - TP 2 - ISI 111
 # Integrantes:
 # - Fabrizio Fontanarrosa
 # - Clemente Giorgi
@@ -87,30 +87,48 @@ def menu():
     print("")
 
 
+def buscarJugador(nombres, cant, nombre):
+    # Búsqueda lineal sobre el array: devuelve el índice del jugador
+    # o -1 si no está registrado
+    # INT:
+    # indice, i
+    indice = -1
+    i = 0
+    while i < cant and indice == -1:
+        if nombres[i] == nombre:
+            indice = i
+        i = i + 1
+    return indice
+
+
 # Juego del Menor - Mayor
 def juego1():
     # Declaracion de variables:
     # STRING:
-    # nombre, prediccion, continuar
+    # nombre, prediccion
     # BOOL:
-    # prediccionValida, acierto, juegoTerminado
+    # acierto, juegoTerminado
     # INT:
-    # numeroActual, numeroSiguiente, racha
-    global juego1_nombre
-    global juego1_jugadas
-    global juego1_mayor_racha
-    global juego1_jugadores
+    # numeroActual, numeroSiguiente, racha, indice
+    global j1_cant
     limpiarPantalla()
     nombre = input("Ingresá tu nombre: ")
-   
-    if nombre not in juego1_jugadores:
-        if len(juego1_jugadores) >= 10:
-            print(RED + "ya tenemos 10 jugadores registrados" + RESET)
-            input("presiona enter para volver al menu \n")
+
+    indice = buscarJugador(j1_nombres, j1_cant, nombre)
+    if indice == -1:
+        if j1_cant >= MAX_JUGADORES:
+            print(
+                RED
+                + "Ya hay 10 jugadores registrados. No hay cupo para un jugador nuevo."
+                + RESET
+            )
+            input("Presione Enter para volver al menú\n")
             return
-        else:
-            juego1_jugadores.append(nombre)
-    
+        j1_nombres[j1_cant] = nombre
+        j1_rachaMax[j1_cant] = 0
+        indice = j1_cant
+        j1_cant = j1_cant + 1
+
     print(f"¡Hola {nombre}! Vamos a jugar al Menor-Mayor.")
     print("Te muestro un numero y tenés que adivinar si el siguiente es Mayor o Menor")
 
@@ -122,101 +140,82 @@ def juego1():
     while not juegoTerminado:
         prediccion = input("¿Mayor o Menor? ").lower()
 
-        prediccionValida = False
-        while not prediccionValida:
-            if prediccion == "mayor" or prediccion == "menor":
-                prediccionValida = True
-
-                if prediccion == "mayor":
-                    prediccion = "mayor"
-                else:
-                    prediccion = "menor"
-            else:
-                print("Por favor ingrese sólo 'mayor' o 'menor'")
-                prediccion = input("¿MAYOR o MENOR? ").lower()
+        while prediccion != "mayor" and prediccion != "menor":
+            print("Por favor ingrese sólo 'mayor' o 'menor'")
+            prediccion = input("¿Mayor o Menor? ").lower()
 
         numeroSiguiente = random.randint(1, 1000)
 
-        acierto = False
-        if prediccion == "mayor" and numeroSiguiente > numeroActual:
-            acierto = True
-        elif prediccion == "menor" and numeroSiguiente < numeroActual:
-            acierto = True
-
-        if acierto:
-            racha += 1
+        if numeroSiguiente == numeroActual:
             print(
-                GREEN
-                + f"¡Acertaste! El número era {numeroSiguiente}\nRacha: {racha}"
+                YELLOW
+                + f"Salió el mismo número ({numeroSiguiente}). No suma para la racha, el juego continúa."
                 + RESET
             )
         else:
-            print(RED + f"¡Le erraste! El número era {numeroSiguiente}" + RESET)
+            acierto = False
+            if prediccion == "mayor" and numeroSiguiente > numeroActual:
+                acierto = True
+            elif prediccion == "menor" and numeroSiguiente < numeroActual:
+                acierto = True
 
-            print(f"\n{nombre}, ¿Querés seguir jugando?")
-            continuar = input(
-                "Ingresá 'si' para seguir jugando o 'no' para volver al menú: "
-            ).lower()
-
-            while continuar != "si" and continuar != "no":
-                print("Por favor ingrese sólo 'si' o 'no'")
-                continuar = input(
-                    "Ingresa 'si' para seguir jugando o 'no' para volver al menú: "
-                ).lower()
-            juego1_jugadas += 1
-            if continuar == "si":
-                racha = 0
-                print(f"¡Nueva oportunidad! Vamos de nuevo.")
-            else:
+            if acierto:
+                racha = racha + 1
                 print(
-                    f"¡Juego terminado {nombre}! La racha final fue de {racha} aciertos."
+                    GREEN
+                    + f"¡Acertaste! El número era {numeroSiguiente}\nRacha: {racha}"
+                    + RESET
                 )
+            else:
+                print(RED + f"¡Le erraste! El número era {numeroSiguiente}" + RESET)
+                print(f"¡Juego terminado {nombre}! Tu racha fue de {racha} aciertos.")
                 juegoTerminado = True
 
         if not juegoTerminado:
             numeroActual = random.randint(1, 1000)
             print(f"Nuevo número: {numeroActual}\n")
 
-        if racha > juego1_mayor_racha:
-            juego1_nombre = nombre
-            juego1_mayor_racha = racha
+    if racha > j1_rachaMax[indice]:
+        j1_rachaMax[indice] = racha
+
+    input("Presione Enter para volver al menú\n")
 
 
 # Numero secreto
 def juego2():
     # Declaración de variables
     # INT:
-    # IntentosRestantes, IntentosRealizados, juego2_jugadas, juego2_ganadas, juego2_perdidas, Intento, Entrada, numerosecreto
+    # IntentosRestantes, IntentosRealizados, Intento, numerosecreto, indice
     # BOOL:
-    # es_valido
+    # es_valido, es_numerico
     # STRING:
-    # Respuesta
-    global juego2_nombre
-    global juego2_jugadas
-    global juego2_ganadas
-    global juego2_perdidas
-    global juego2_jugadores
+    # nombre, Respuesta, Entrada
+    global j2_cant
     limpiarPantalla()
     print("¡Bienvenido al juego del número secreto!")
-    juego2_nombre = input("¿Cuál es tu nombre? ")
-    print("Hola", juego2_nombre, "¡Vamos a jugar al número secreto!")
-    print(
-        "El juego consiste en adivinar un número entre 1 y 100. Tienes 6 intentos para adivinarlo. ¡Buena suerte!")
+    nombre = input("¿Cuál es tu nombre? ")
 
-    IntentosRestantes = 6
-    IntentosRealizados = 0
-
-    if juego2_nombre not in juego2_jugadores:
-        if len(juego2_jugadores) >= 10:
-            print(RED + "El juego alcanzo su máximo de jugadores" + RESET)
-            input("presiona enter para volver al menu \n")
+    indice = buscarJugador(j2_nombres, j2_cant, nombre)
+    if indice == -1:
+        if j2_cant >= MAX_JUGADORES:
+            print(RED + "El juego alcanzó su máximo de jugadores." + RESET)
+            input("Presione Enter para volver al menú\n")
             return
-        else:
-            juego2_jugadores.append(juego2_nombre)
+        j2_nombres[j2_cant] = nombre
+        j2_jugadas[j2_cant] = 0
+        j2_ganadas[j2_cant] = 0
+        j2_perdidas[j2_cant] = 0
+        indice = j2_cant
+        j2_cant = j2_cant + 1
+
+    print("Hola", nombre, "¡Vamos a jugar al número secreto!")
+    print(
+        "El juego consiste en adivinar un número entre 1 y 100. Tienes 6 intentos para adivinarlo. ¡Buena suerte!"
+    )
 
     Respuesta = "s"
     while Respuesta == "s":
-        juego2_jugadas = juego2_jugadas + 1
+        j2_jugadas[indice] = j2_jugadas[indice] + 1
         numerosecreto = random.randint(1, 100)
         IntentosRestantes = 6
         IntentosRealizados = 0
@@ -251,12 +250,12 @@ def juego2():
             if Intento == numerosecreto:
                 print(
                     "¡Felicidades",
-                    juego2_nombre,
+                    nombre,
                     "has adivinado el número secreto! Lo has logrado en",
                     IntentosRealizados,
                     "intentos.",
                 )
-                juego2_ganadas = juego2_ganadas + 1
+                j2_ganadas[indice] = j2_ganadas[indice] + 1
                 IntentosRestantes = 0
             elif Intento < numerosecreto:
                 print("El número secreto es mayor que", Intento)
@@ -271,15 +270,15 @@ def juego2():
 
         if Intento != numerosecreto:
             print("No te quedan intentos. El número secreto era", numerosecreto)
-            juego2_perdidas = juego2_perdidas + 1
+            j2_perdidas[indice] = j2_perdidas[indice] + 1
 
         print(
             "Has jugado",
-            juego2_jugadas,
+            j2_jugadas[indice],
             "veces, has acertado",
-            juego2_ganadas,
+            j2_ganadas[indice],
             "veces y has perdido",
-            juego2_perdidas,
+            j2_perdidas[indice],
             "veces.",
         )
         Respuesta = input("¿Deseas jugar nuevamente? (s/n) ").lower()
@@ -289,20 +288,185 @@ def juego2():
     print("\n¡Gracias por jugar, hasta la próxima!")
     print(
         "Has jugado",
-        juego2_jugadas,
+        j2_jugadas[indice],
         "veces, has acertado",
-        juego2_ganadas,
+        j2_ganadas[indice],
         "veces y has perdido",
-        juego2_perdidas,
+        j2_perdidas[indice],
         "veces.",
     )
 
     input("\nPresione Enter para volver\n")
 
 
+# Blackjack
+def textoCarta(carta):
+    # INT:
+    # carta (0-51): rango = carta % 13 (0=2 ... 8=10, 9=J, 10=Q, 11=K, 12=A)
+    #               palo  = carta // 13 (0=Corazones, 1=Diamantes, 2=Tréboles, 3=Picas)
+    rangos = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+    palos = ["Corazones", "Diamantes", "Tréboles", "Picas"]
+    return rangos[carta % 13] + " de " + palos[carta // 13]
+
+
+def valorMano(mano, cant):
+    # Suma los valores de las cartas: 2-10 su número, J/Q/K valen 10,
+    # el As vale 11 y pasa a valer 1 si la suma se pasa de 21
+    # INT:
+    # suma, ases, i, rango
+    suma = 0
+    ases = 0
+    for i in range(cant):
+        rango = mano[i] % 13
+        if rango <= 8:
+            suma = suma + rango + 2
+        elif rango <= 11:
+            suma = suma + 10
+        else:
+            suma = suma + 11
+            ases = ases + 1
+    while suma > 21 and ases > 0:
+        suma = suma - 10
+        ases = ases - 1
+    return suma
+
+
+def mostrarMano(mano, cant):
+    # INT:
+    # i
+    for i in range(cant):
+        print("  " + textoCarta(mano[i]))
+
+
 def juego3():
+    # Declaración de variables
+    # STRING:
+    # nombre, decision, otraPartida
+    # BOOL:
+    # turnoJugador
+    # INT:
+    # indice, tope, cantJugador, cantBanca, sumaJugador, sumaBanca, i, j, aux
+    global j3_cant
     limpiarPantalla()
-    input("Juego en construcción. Volvé pronto!\n\nPresione Enter para volver\n")
+    print("¡Bienvenido al Blackjack!")
+    nombre = input("Ingresá tu nombre: ")
+
+    indice = buscarJugador(j3_nombres, j3_cant, nombre)
+    if indice == -1:
+        if j3_cant >= MAX_JUGADORES:
+            print(
+                RED
+                + "Ya hay 10 jugadores registrados. No hay cupo para un jugador nuevo."
+                + RESET
+            )
+            input("Presione Enter para volver al menú\n")
+            return
+        j3_nombres[j3_cant] = nombre
+        j3_ganadas[j3_cant] = 0
+        indice = j3_cant
+        j3_cant = j3_cant + 1
+
+    print(
+        f"\n¡Hola {nombre}! Jugás contra la banca. Gana el que se acerque más a 21 sin pasarse."
+    )
+
+    otraPartida = "si"
+    while otraPartida == "si":
+        # Se crea y baraja un mazo nuevo de 52 cartas en cada partida
+        mazo = [0] * 52
+        for i in range(52):
+            mazo[i] = i
+        for i in range(51, 0, -1):
+            j = random.randint(0, i)
+            aux = mazo[i]
+            mazo[i] = mazo[j]
+            mazo[j] = aux
+        tope = 0
+
+        manoJugador = [0] * 12
+        cantJugador = 0
+        manoBanca = [0] * 12
+        cantBanca = 0
+
+        # Reparto inicial: dos cartas para el jugador y dos para la banca
+        manoJugador[cantJugador] = mazo[tope]
+        cantJugador = cantJugador + 1
+        tope = tope + 1
+        manoBanca[cantBanca] = mazo[tope]
+        cantBanca = cantBanca + 1
+        tope = tope + 1
+        manoJugador[cantJugador] = mazo[tope]
+        cantJugador = cantJugador + 1
+        tope = tope + 1
+        manoBanca[cantBanca] = mazo[tope]
+        cantBanca = cantBanca + 1
+        tope = tope + 1
+
+        print("\nCartas de la banca:")
+        mostrarMano(manoBanca, cantBanca)
+        sumaBanca = valorMano(manoBanca, cantBanca)
+        print("Suma de la banca:", sumaBanca)
+        print("\nTus cartas:")
+        mostrarMano(manoJugador, cantJugador)
+        sumaJugador = valorMano(manoJugador, cantJugador)
+        print("Tu suma:", sumaJugador)
+
+        # Turno del jugador
+        turnoJugador = True
+        while turnoJugador:
+            if sumaJugador >= 21:
+                turnoJugador = False
+            else:
+                decision = input("\n¿Pedir o Plantarse? ").lower()
+                while decision != "pedir" and decision != "plantarse":
+                    print("Opción inválida. Ingresá 'pedir' o 'plantarse'.")
+                    decision = input("¿Pedir o Plantarse? ").lower()
+                if decision == "plantarse":
+                    turnoJugador = False
+                else:
+                    manoJugador[cantJugador] = mazo[tope]
+                    cantJugador = cantJugador + 1
+                    tope = tope + 1
+                    sumaJugador = valorMano(manoJugador, cantJugador)
+                    print("Recibiste:", textoCarta(manoJugador[cantJugador - 1]))
+                    print("Tu suma:", sumaJugador)
+
+        if sumaJugador > 21:
+            print(RED + "\nTe pasaste de 21. ¡Gana la banca!" + RESET)
+        else:
+            # Turno de la banca: pide con 16 o menos, se planta con 17 o más
+            print("\nTurno de la banca. Su suma:", sumaBanca)
+            while sumaBanca <= 16:
+                manoBanca[cantBanca] = mazo[tope]
+                cantBanca = cantBanca + 1
+                tope = tope + 1
+                sumaBanca = valorMano(manoBanca, cantBanca)
+                print(
+                    "La banca pide carta:",
+                    textoCarta(manoBanca[cantBanca - 1]),
+                    "- Suma:",
+                    sumaBanca,
+                )
+            print("La banca se planta con", sumaBanca)
+
+            if sumaBanca > 21:
+                print(GREEN + "\nLa banca se pasó de 21. ¡Ganaste!" + RESET)
+                j3_ganadas[indice] = j3_ganadas[indice] + 1
+            elif sumaJugador > sumaBanca:
+                print(GREEN + f"\n{sumaJugador} contra {sumaBanca}. ¡Ganaste!" + RESET)
+                j3_ganadas[indice] = j3_ganadas[indice] + 1
+            elif sumaJugador < sumaBanca:
+                print(RED + f"\n{sumaJugador} contra {sumaBanca}. Gana la banca." + RESET)
+            else:
+                print(YELLOW + f"\n{sumaJugador} contra {sumaBanca}. ¡Empate!" + RESET)
+
+        print(f"\n{nombre}, ganaste {j3_ganadas[indice]} partidas en total.")
+        otraPartida = input("¿Querés jugar otra partida? (si/no): ").lower()
+        while otraPartida != "si" and otraPartida != "no":
+            print("Por favor ingresá 'si' o 'no'.")
+            otraPartida = input("¿Querés jugar otra partida? (si/no): ").lower()
+
+    input("\nPresione Enter para volver al menú\n")
 
 
 # Par o impar
@@ -364,38 +528,171 @@ def juego4():
             print("\nEsperamos volver a verte pronto!\n")
 
 
+# Reporte
+def burbujaDesc(nombres, valores, cant):
+    # Ordena de mayor a menor según valores, moviendo los nombres
+    # junto con ellos (método burbuja sobre arrays paralelos)
+    # INT:
+    # i, j, auxValor
+    # STRING:
+    # auxNombre
+    for i in range(cant - 1):
+        for j in range(cant - 1 - i):
+            if valores[j] < valores[j + 1]:
+                auxValor = valores[j]
+                valores[j] = valores[j + 1]
+                valores[j + 1] = auxValor
+                auxNombre = nombres[j]
+                nombres[j] = nombres[j + 1]
+                nombres[j + 1] = auxNombre
+
+
+def reporteGanadores():
+    # Opción a: jugadores ordenados de mayor a menor por cantidad
+    # de veces que ganaron cada juego (excepto menor/mayor)
+    # INT:
+    # i
+    limpiarPantalla()
+    print(MAGENTA + "Jugadores ordenados por victorias (mayor a menor)" + RESET)
+
+    print("\n" + CYAN + "Número secreto" + RESET)
+    if j2_cant == 0:
+        print("  Todavía no hay jugadores registrados.")
+    else:
+        nombresAux = [""] * MAX_JUGADORES
+        valoresAux = [0] * MAX_JUGADORES
+        for i in range(j2_cant):
+            nombresAux[i] = j2_nombres[i]
+            valoresAux[i] = j2_ganadas[i]
+        burbujaDesc(nombresAux, valoresAux, j2_cant)
+        for i in range(j2_cant):
+            print(f"  {nombresAux[i]}: {valoresAux[i]} ganadas")
+
+    print("\n" + CYAN + "Blackjack" + RESET)
+    if j3_cant == 0:
+        print("  Todavía no hay jugadores registrados.")
+    else:
+        nombresAux = [""] * MAX_JUGADORES
+        valoresAux = [0] * MAX_JUGADORES
+        for i in range(j3_cant):
+            nombresAux[i] = j3_nombres[i]
+            valoresAux[i] = j3_ganadas[i]
+        burbujaDesc(nombresAux, valoresAux, j3_cant)
+        for i in range(j3_cant):
+            print(f"  {nombresAux[i]}: {valoresAux[i]} ganadas")
+
+    print("\n" + CYAN + "Par o impar" + RESET)
+    print("  Pendiente: se implementará junto con la refactorización del juego 4.")
+
+    input("\nPresione Enter para continuar\n")
+
+
+def reporteJuegosPorJugador():
+    # Opción b: dado un nombre, informar a qué juegos jugó y
+    # cuántos puntos obtuvo en cada uno
+    # STRING:
+    # nombre
+    # BOOL:
+    # encontro
+    # INT:
+    # i1, i2, i3
+    limpiarPantalla()
+    nombre = input("Ingresá el nombre del jugador: ")
+    encontro = False
+
+    i1 = buscarJugador(j1_nombres, j1_cant, nombre)
+    if i1 != -1:
+        encontro = True
+        print(f"Menor-Mayor: su mejor racha es de {j1_rachaMax[i1]} aciertos.")
+
+    i2 = buscarJugador(j2_nombres, j2_cant, nombre)
+    if i2 != -1:
+        encontro = True
+        print(
+            f"Número secreto: {j2_ganadas[i2]} ganadas"
+            + f" ({j2_jugadas[i2]} jugadas, {j2_perdidas[i2]} perdidas)."
+        )
+
+    i3 = buscarJugador(j3_nombres, j3_cant, nombre)
+    if i3 != -1:
+        encontro = True
+        print(f"Blackjack: {j3_ganadas[i3]} partidas ganadas.")
+
+    if not encontro:
+        print(f"{nombre} no está registrado en ningún juego.")
+
+    print("Par o impar: pendiente de implementar junto con el juego 4.")
+    input("\nPresione Enter para continuar\n")
+
+
+def reporteCreditos():
+    # Opción c: jugadores de Par-Impar ordenados de menor a mayor
+    # según su crédito
+    limpiarPantalla()
+    print("Listado de jugadores de Par-Impar ordenado por crédito:")
+    print("Pendiente: se implementará junto con el sistema de crédito del juego 4.")
+    input("\nPresione Enter para continuar\n")
+
+
+def reporteRacha():
+    # Opción d: dado un nombre, mostrar su racha en el juego
+    # de menor/mayor
+    # STRING:
+    # nombre
+    # INT:
+    # i1
+    limpiarPantalla()
+    nombre = input("Ingresá el nombre del jugador: ")
+    i1 = buscarJugador(j1_nombres, j1_cant, nombre)
+    if i1 == -1:
+        print(f"{nombre} no está registrado en el juego del Menor-Mayor.")
+    else:
+        print(
+            f"La mejor racha de {nombre} en el Menor-Mayor es de {j1_rachaMax[i1]} aciertos."
+        )
+    input("\nPresione Enter para continuar\n")
+
+
 def reporte():
-    limpiarPantalla()
-    print("")
-    print("--------------------------------------------------------")
-    print("")
-    print(MAGENTA + "Reporte de puntuaciones:" + RESET)
-    print("")
-    print("Juego 1: Mayor-menor")
-    print(f"Nombre del jugador: {juego1_nombre}")
-    print(f"Partidas jugadas: {juego1_jugadas}")
-    print(f"{GREEN}Mayor racha: {juego1_mayor_racha}{RESET}")
-    print("")
-    print("Juego 2: Número secreto")
-    print(f"Nombre del jugador: {juego2_nombre}")
-    print(f"Partidas jugadas: {juego2_jugadas}")
-    print(f"{GREEN}Partidas ganadas: {juego2_ganadas}{RESET}")
-    print(f"{RED}Partidas perdidas: {juego2_perdidas}{RESET}")
-    print("")
-    print("Juego 3: Blackjack")
-    print("Juego en construcción")
-    print("")
-    print("Juego 4: Par o impar")
-    print(f"Nombre del jugador: {juego4_nombre}")
-    print(f"Partidas jugadas: {juego4_jugadas}")
-    print(f"{GREEN}Partidas ganadas: {juego4_ganadas}{RESET}")
-    print(f"{RED}Partidas perdidas: {juego4_perdidas}{RESET}")
-    print("")
-    print("")
-    print("--------------------------------------------------------")
-    print("")
-    input("Presione Enter para salir\n")
-    limpiarPantalla()
+    # Submenú iterativo del reporte
+    # STRING:
+    # opcionReporte
+    opcionReporte = ""
+    while opcionReporte != "e":
+        limpiarPantalla()
+        print("")
+        print("")
+        print(
+            BLUE
+            + "PYTHON "
+            + BRIGHT_YELLOW
+            + "CASINO"
+            + RESET
+            + " - "
+            + MAGENTA
+            + "REPORTE"
+            + RESET
+        )
+        print("")
+        print("Lista de opciones:")
+        print(GREEN + "A" + RESET + " - Jugadores ordenados por victorias (mayor a menor)")
+        print(GREEN + "B" + RESET + " - Juegos jugados por un jugador")
+        print(GREEN + "C" + RESET + " - Jugadores de Par-Impar ordenados por crédito")
+        print(GREEN + "D" + RESET + " - Racha de un jugador en el Menor-Mayor")
+        print(RED + "E" + RESET + " - Volver al menú principal")
+        print("")
+        opcionReporte = input("Elija una opción: ").lower()
+        while opcionReporte < "a" or opcionReporte > "e":
+            print(RED + "Seleccione una opción válida" + RESET)
+            opcionReporte = input("Elija una opción: ").lower()
+        if opcionReporte == "a":
+            reporteGanadores()
+        elif opcionReporte == "b":
+            reporteJuegosPorJugador()
+        elif opcionReporte == "c":
+            reporteCreditos()
+        elif opcionReporte == "d":
+            reporteRacha()
 
 
 def salir():
@@ -413,12 +710,17 @@ def salir():
 
 # Declaración de variables
 # STRING:
-# comandoLimpiar, opcion, juego1_nombre, juego2_nombre, juego4_nombre
+# comandoLimpiar, opcion, juego4_nombre
 # BOOL:
 # continuar, opcionEsValida, flagAdvertencia
 # INT:
-# juego1_jugadas, juego1_mayor_racha, juego2_jugadas, juego2_ganadas, juego2_perdidas,
+# MAX_JUGADORES, j1_cant, j2_cant, j3_cant,
 # juego4_jugadas, juego4_ganadas, juego4_perdidas
+# ARRAYS SIMULADOS (longitud fija MAX_JUGADORES, un solo tipo de dato,
+# sin métodos de lista; la cantidad de posiciones ocupadas la lleva jX_cant):
+# j1_nombres (str), j1_rachaMax (int)
+# j2_nombres (str), j2_jugadas, j2_ganadas, j2_perdidas (int)
+# j3_nombres (str), j3_ganadas (int)
 
 comandoLimpiar = "cls" if os.name == "nt" else "clear"
 continuar = True
@@ -428,17 +730,21 @@ flagAdvertencia = False
 
 # Definición de variables de puntuacion globales para los juegos
 
-juego1_nombre = ""
-juego1_jugadas = 0
-juego1_mayor_racha = 0
-juego1_jugadores = [] 
+MAX_JUGADORES = 10
 
-juego2_nombre = ""
-juego2_jugadas = 0
-juego2_ganadas = 0
-juego2_perdidas = 0
-juego2_jugadores = [] 
+j1_nombres = [""] * MAX_JUGADORES
+j1_rachaMax = [0] * MAX_JUGADORES
+j1_cant = 0
 
+j2_nombres = [""] * MAX_JUGADORES
+j2_jugadas = [0] * MAX_JUGADORES
+j2_ganadas = [0] * MAX_JUGADORES
+j2_perdidas = [0] * MAX_JUGADORES
+j2_cant = 0
+
+j3_nombres = [""] * MAX_JUGADORES
+j3_ganadas = [0] * MAX_JUGADORES
+j3_cant = 0
 
 juego4_nombre = ""
 juego4_jugadas = 0
