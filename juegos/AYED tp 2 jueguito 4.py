@@ -1,4 +1,4 @@
-# AyED 2026 - TP 1 - ISI 111
+# AyED 2026 - TP 2 - ISI 111
 # Integrantes:
 # - Fabrizio Fontanarrosa
 # - Clemente Giorgi
@@ -320,21 +320,18 @@ def juego4():
     global juego4_jugadas_arr
     global juego4_ganadas_arr
     global juego4_perdidas_arr
-    global juego4_creditos_arr #para los créditps.
-    global juego4_cant_jugadores #para saber cantidad de jugadores.
-
+    global juego4_creditos_arr  # para los créditps.
+    global juego4_cant_jugadores  # para saber cantidad de jugadores.
 
     nombre_ingresado = input("Jugador/a, ingrese su nombre: \n")
-
 
     indice_jugador = -1
     i = 0
     while i < juego4_cant_jugadores:
         if juego4_nombres[i] == nombre_ingresado:
             indice_jugador = i
-            i = juego4_cant_jugadores 
+            i = juego4_cant_jugadores
         i += 1
-
 
     if indice_jugador == -1:
         if juego4_cant_jugadores >= maximo_j:
@@ -355,13 +352,11 @@ def juego4():
     else:
         print(f"\n¡Hola de nuevo, {nombre_ingresado}!")
 
-
         if juego4_creditos_arr[indice_jugador] <= 0:
             print(
                 "Tus créditos estaban en $0. Se reinician a $1000 para que puedas seguir jugando."
             )
             juego4_creditos_arr[indice_jugador] = 1000
-
 
     print(f"\n{nombre_ingresado}, sumaremos dos numeros entre 1 y 6.")
     print("Si el resultado es par, usted ganará y sumará un punto.")
@@ -370,17 +365,16 @@ def juego4():
     print(
         "En cada ronda deberás apostar una suma menor o igual a tus créditos disponibles."
     )
-    print("Si acertás, ganás el monto apostado. Si fallás, se te resta el monto apostado.")
-
+    print(
+        "Si acertás, ganás el monto apostado. Si fallás, se te resta el monto apostado."
+    )
 
     continuar = "si"
     while (
         continuar == "si" or continuar == "Si" or continuar == "SI" or continuar == "sI"
     ):
 
-
         print(f"\nCréditos disponibles: {juego4_creditos_arr[indice_jugador]}$")
-
 
         apuesta_str = input(f"{nombre_ingresado}. ¿Cuánto querés apostar?: \n")
         while (
@@ -400,9 +394,7 @@ def juego4():
         caraDos = random.randint(1, 6)
         suma_caras = caraUno + caraDos
 
-
         respuesta_j = input(f"\n{nombre_ingresado}. Par o impar?: \n")
-
 
         while (
             respuesta_j != "par"
@@ -444,13 +436,11 @@ def juego4():
 
         juego4_jugadas_arr[indice_jugador] += 1
 
-
         if juego4_creditos_arr[indice_jugador] <= 0:
             print(f"{nombre_ingresado}, te quedaste sin créditos.")
             continuar = input(
                 f"{nombre_ingresado}. Querés seguir jugando? Se reiniciarán tus créditos a $1000: (si/no) "
             )
-
 
             while (
                 continuar != "si"
@@ -466,7 +456,6 @@ def juego4():
                     f"Respuesta inválida, {nombre_ingresado}. Querés seguir jugando?: (si/no) "
                 )
 
-
             if (
                 continuar == "si"
                 or continuar == "Si"
@@ -481,9 +470,7 @@ def juego4():
                 print("\nEsperamos volver a verte pronto!\n")
             continue
 
-
         continuar = input(f"{nombre_ingresado}. Querés seguir jugando?: (si/no) ")
-
 
         while (
             continuar != "si"
@@ -498,7 +485,6 @@ def juego4():
             continuar = input(
                 f"Respuesta inválida, {nombre_ingresado}. Querés seguir jugando?: (si/no) "
             )
-
 
         if (
             continuar == "no"
@@ -582,7 +568,7 @@ flagAdvertencia = False
 
 # Definición de variables de puntuacion globales para los juegos
 juego1_nombre = ""
-juego1_jugadas = 0 
+juego1_jugadas = 0
 juego1_mayor_racha = 0
 
 juego2_nombre = ""
