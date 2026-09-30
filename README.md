@@ -4,5 +4,5 @@ Integrantes:
 
 - Fabrizio Fontanarrosa
 - Santiago Marchionatti
-- Clemente Giorgi
+- Manuel Mattos
 - Lautaro Casagrande
